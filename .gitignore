@@ -1,0 +1,8 @@
+.env
+env
+.venv
+/the_bible_app/__pycache__
+/the_bible_project/__pycache__
+/the_bible_app/migrations/*
+
+
