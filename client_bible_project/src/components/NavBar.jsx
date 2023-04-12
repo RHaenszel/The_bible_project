@@ -1,11 +1,17 @@
 import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom"
-import { logOut } from "../utilites"
-import { UserContext } from "../App";
+import { Link, useNavigate } from "react-router-dom"
+import { logOut, search } from "../utilites"
+import { UserContext, SearchContext } from "../App";
 
 export const NavBar = () => {
     
+    const [searchTerm, setSearchTerm] = useState('')
     const {user, setUser} = useContext(UserContext)
+    const {searchData, setSearchData} = useContext(SearchContext)
+    const navigate = useNavigate();
+
+    // console.log("NavBar")
+    // console.log("NavBar SearchData", searchData)
 
     return (
 
@@ -14,7 +20,10 @@ export const NavBar = () => {
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
                 <Link className="navbar-brand" to={'/'} >The Bible Project</Link>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button className="navbar-toggler" 
+                        type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#navbarSupportedContent">
                 <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -25,26 +34,37 @@ export const NavBar = () => {
                     <li className="nav-item">
                     <Link className="nav-link" to={'/login/'} >Log In</Link>
                     </li>
-                    <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul className="dropdown-menu">
-                        <li><a className="dropdown-item" href="#">Action</a></li>
-                        <li><a className="dropdown-item" href="#">Another action</a></li>
-                        <li><hr className="dropdown-divider"/></li>
-                        <li><a className="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                    </li>
                     <li className="nav-item">
-                    <Link className="nav-link" to={'/login/'} >Another Link</Link>
+                    <Link className="nav-link" to={'/signup/'} >Sign Up</Link>
+                    </li>
+                    
+                    <li className="nav-item">
+                    <Link className="nav-link" to={'/browse/'} >Browse</Link>
                     </li>
                 </ul>
-                <form className="d-flex" role="search">
-                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button className="btn btn-outline-success btn-sm" type="submit">Search</button>
-                    <button className="btn btn-primary ms-1 btn-sm" onClick={() => logOut(setUser)} >Log Out</button>
+                <form className="d-flex" 
+                        role="search"
+                        onSubmit={(event) => [
+                            event.preventDefault(),
+                            search(searchTerm, setUser, setSearchData),
+                            setSearchTerm(""),
+                            navigate("/search")
+                        ]}
+                        >
+                    <input className="form-control me-2" 
+                            type="search" 
+                            placeholder="Search" 
+                            value={searchTerm}
+                            onChange={(event) => setSearchTerm(event.target.value)}
+                            />
+                    <button className="btn btn-outline-success btn-sm" 
+                            type="submit"
+                            >Search</button>
                 </form>
+                <button className="btn btn-primary ms-3 btn-sm" 
+                            onClick={() => [logOut(setUser),
+                                            navigate("/")
+                                            ]} >Log Out</button>
                 </div>
             </div>
             </nav>

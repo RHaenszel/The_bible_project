@@ -48,6 +48,19 @@ export const logOut = async (setUser) => {
     return response.data.signout
 }
 
+export const search = async (searchTerm, setUser, setSearchData) => {
+  let response = await axios.post('/search/', {
+    'search_term' : searchTerm,
+});
+  console.log("Res Data Newdata", response.data.newdata)
+  setSearchData(response.data.newdata)
+  const getCurrentUser = async () => {
+      setUser(await currentUser());
+    }
+    getCurrentUser()
+
+  return response.data
+}
 
 
 

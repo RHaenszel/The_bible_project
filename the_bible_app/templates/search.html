@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% comment %} <link rel="stylesheet" href=""> {% endcomment %}
+    </head>
+    <body>
+        <h1>Bible Test ESV</h1>
+        <div>
+            <form action="/search/" method="POST">
+                {% csrf_token %}
+                
+                <br>
+                <label for="search_term">Search</label>
+                <input type="text" name="search_term" id="search_term" value={{ book }}>
+
+                <input type="submit" value="Submit">
+                
+        </div>
+        <div>
+
+            <h3>Bible name: {{ name_Bible }}</h3>
+            
+            {% if newdata %}
+                <p>
+                {% for item in newdata %}
+                    <p ><strong>{{ item.book_name }}</strong> - Chapter: {{ item.chapter }}</p>
+                    <strong>[{{ item.verse_start }}]</strong> {{ item.verse_text }}
+                    <br>    
+                    <br>
+                {% endfor %}
+                </p>
+                {% else %}
+                <p>No Verses Found</p>
+                {% endif %}
+        </div>
+
+        {% comment %} <script src="" async defer></script> {% endcomment %}
+    </body>
+</html>
