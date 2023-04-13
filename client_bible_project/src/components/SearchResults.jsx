@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { UserContext, SearchContext } from "../App";
+import { UserContext, SearchContext, BibleBookContext } from "../App";
 import SearchComp from "./sub/SearchComp";
 
 
@@ -8,6 +8,8 @@ export function SearchResults () {
 
     const {user, setUser} = useContext(UserContext)
     const {searchData, setSearchData} = useContext(SearchContext)
+    const {bibleBook, setBibleBook} = useContext(BibleBookContext)
+    
     console.log("Search Page SearchData: ", searchData)
 
     return (

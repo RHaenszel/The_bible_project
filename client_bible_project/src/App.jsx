@@ -15,7 +15,13 @@ export const BibleBookContext = createContext(null)
 function App() {
   const [user, setUser] = useState({"user_data" : null})
   const [searchData, setSearchData] = useState([])
-  const [bibleBook, setBibleBook] = useState("ENGESV")
+  const [bibleBook, setBibleBook] = useState({
+    'name_bible' : "ENGESV",
+    'book' : "MAT",
+    'chapter' : 1,
+    'start' : 1,
+    'end' : 25
+})
 
   const csrftoken = Cookies.get('csrftoken')
   // console.log(csrftoken)

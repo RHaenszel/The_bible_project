@@ -59,25 +59,47 @@ def search_Bible(req):
 def passage_from_Bible(req):
     
     # {'name_bible': 'ENGESV', 'book': 'MAT', 'chapter': 2, 'start': 4, 'end': 10}
-    if req.method == "POST":
-        print("YES", req.data)
-        name_Bible = req.data['name_bible']
-        book = req.data['book']
-        chapter = req.data['chapter']
-        start = req.data['start']
-        end = req.data['end']
-    
-    url = f"https://b4.dbt.io/api/bibles/filesets/{name_Bible}/{book}/{chapter}?verse_start={start}&verse_end={end}&v=4&key={API_KEY}"
+    try:
+        if req.method == "POST":
+            print("YES", req.data)
+            name_Bible = req.data['name_bible']
+            book = req.data['book']
+            chapter = req.data['chapter']
+            start = req.data['start']
+            end = req.data['end']
+        
+        url = f"https://b4.dbt.io/api/bibles/filesets/{name_Bible}/{book}/{chapter}?verse_start={start}&verse_end={end}&v=4&key={API_KEY}"
 
-    payload={}
-    headers = {}
+        payload={}
+        headers = {}
 
-    response = requests.request("GET", url, headers=headers, data=payload)
-    
-    info = response.json()
-    newdata = info['data']
-    length_of_newdata = len(newdata) - 1
-    last_verse_number = newdata[length_of_newdata]['verse_end']
-    start_verse_number = newdata[0]['verse_start']
-    return JsonResponse({'newdata': newdata, 'start_verse_number': start_verse_number, 'last_verse_number': last_verse_number, 'book': book, 'start': start, 'end': end, 'chapter': chapter, 'name_Bible': name_Bible})
+        response = requests.request("GET", url, headers=headers, data=payload)
+        
+        info = response.json()
+        newdata = info['data']
+        length_of_newdata = len(newdata) - 1
+        last_verse_number = newdata[length_of_newdata]['verse_end']
+        start_verse_number = newdata[0]['verse_start']
+        return JsonResponse({'newdata': newdata, 'start_verse_number': start_verse_number, 'last_verse_number': last_verse_number, 'book': book, 'start': start, 'end': end, 'chapter': chapter, 'name_Bible': name_Bible})
+    except:
+        
+        print("NO")
+        name_Bible = "ENGESV"
+        book = "MAT"
+        chapter = 1
+        start = 1
+        end = 25
+        
+        url = f"https://b4.dbt.io/api/bibles/filesets/{name_Bible}/{book}/{chapter}?verse_start={start}&verse_end={end}&v=4&key={API_KEY}"
 
+        payload={}
+        headers = {}
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+        
+        info = response.json()
+        newdata = info['data']
+        length_of_newdata = len(newdata) - 1
+        last_verse_number = newdata[length_of_newdata]['verse_end']
+        start_verse_number = newdata[0]['verse_start']
+        return JsonResponse({'newdata': newdata, 'start_verse_number': start_verse_number, 'last_verse_number': last_verse_number, 'book': book, 'start': start, 'end': end, 'chapter': chapter, 'name_Bible': name_Bible})

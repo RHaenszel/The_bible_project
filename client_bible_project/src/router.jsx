@@ -35,7 +35,7 @@ const Router = createHashRouter([{
         {
             path: "/browse/",
             element: <BibleBrowse />,
-            loader: loaderBibleBrowse
+            // loader: loaderBibleBrowse
         }
 
 

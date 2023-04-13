@@ -6,7 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 export function BibleBrowseFormater(props){
 
-    console.log("Props:", props)
+    // console.log("Props:", props)
 
     return (
         

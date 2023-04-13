@@ -4,28 +4,24 @@ import { UserContext, SearchContext, BibleBookContext } from "../App";
 import axios from 'axios';
 import BibleBrowseFormater from "./sub/BibleBrowseFormater";
 
-export async function loaderBibleBrowse() {
-    let response = await axios.post('/passages/', {
-        'name_bible' : "ENGESV",
-        'book' : "MAT",
-        'chapter' : 1,
-        'start' : 1,
-        'end' : 25
-    });
-    console.log("LOADER BROWSER", response.data)
+
+export async function xBibleBrowse(value = null) {
+    console.log("VALUE", value)
+    let params = value
+    // if (value == null){
+    //     const params = {
+    //         'name_bible' : "ENGESV",
+    //         'book' : "MAT",
+    //         'chapter' : 1,
+    //         'start' : 1,
+    //         'end' : 25
+    //     }
+    // }
+    console.log(params)
+    let response = await axios.post('/passages/', params);
+    console.log("LOADER BROWSER2", response.data)
     
     return response.data
-}
-
-export const signUp = async(firstName, lastName, email, password) => {
-    let response = await axios.post('/signup/', {
-        'first_name' : firstName,
-        'last_name' : lastName,
-        'email' : email,
-        'password' : password
-    });
-    console.log(response.data.success)
-    return response.data.success
 }
 
 export function BibleBrowse () {
@@ -34,7 +30,16 @@ export function BibleBrowse () {
     const {searchData, setSearchData} = useContext(SearchContext)
     const {bibleBook, setBibleBook} = useContext(BibleBookContext)
 
-    const biblePassageData = useLoaderData()
+    const [biblePassageData, setBiblePassageData] = useState(null)
+
+    useEffect(() => {
+        const settingBibledata = async () => {
+            setBiblePassageData(await xBibleBrowse(bibleBook));
+        }
+        settingBibledata()
+    }, [bibleBook]);
+
+    
 
     console.log("BibleBrowse Loader Data", biblePassageData)
     
@@ -46,24 +51,36 @@ export function BibleBrowse () {
             <div className="container">
 
             {/* { searchData.length == 0 ? <p>Empty</p> : <p>Not Empty{searchData[0]['book_name']}</p>} */}
-                <p>browse page</p>
-                <div className="card mt-1 me-5">
-                    <h5 className="card-header">{biblePassageData.newdata[0].book_name}</h5>
+                <p>Click card for full Chapter</p>
+                <div className="card mt-1 me-5"
+                            onClick={(event) => setBibleBook({
+                                    'name_bible' : "ENGESV",
+                                    'book' : biblePassageData.newdata[0].book_id,
+                                    'chapter' : biblePassageData.chapter,
+                                    'start' : 1,
+                                    'end' : 1000
+                                })}
+                            >
+                    <h5 className="card-header">{biblePassageData !== null ? 
+                    biblePassageData.newdata[0].book_name 
+                    : null}</h5>
+
                     <div className="card-body">
-                        <h6 className="card-title">Chapter: {biblePassageData.chapter} 
-                &nbsp; &nbsp; Verse: {biblePassageData.start_verse_number} to {biblePassageData.last_verse_number}</h6>
+                        <h6 className="card-title">Chapter: {biblePassageData !== null ? biblePassageData.chapter : null} 
+                &nbsp; &nbsp; Verse: {biblePassageData !== null ? biblePassageData.start_verse_number : null} to {biblePassageData !== null ? biblePassageData.last_verse_number : null}</h6>
 
                     
                         <div className="container">
-                        {biblePassageData.newdata.map((item) => (<BibleBrowseFormater 
+                        {biblePassageData !== null ? biblePassageData.newdata.map((item) => (<BibleBrowseFormater 
                                         book_id={item.book_id}
                                         book_name={item.book_name}
                                         chapter={item.chapter}
                                         verse_start={item.verse_start}
                                         verse_end={item.verse_end}
                                         verse_text={item.verse_text}
-                                                        />))}
+                                                        />)) : null}
                         </div>
+                        <div className="btn btn-primary btn-sm mt-2">Full Chapter</div>
                     </div>
                 </div>
             </div>
