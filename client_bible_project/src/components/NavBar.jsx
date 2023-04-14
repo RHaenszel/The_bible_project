@@ -16,7 +16,7 @@ export const NavBar = () => {
     return (
 
         <>
-
+{user.user_data !== null ? user.user_data.first_name : null}
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
                 <Link className="navbar-brand" to={'/'} >The Bible Project</Link>
@@ -41,6 +41,12 @@ export const NavBar = () => {
                     <li className="nav-item">
                     <Link className="nav-link" to={'/browse/'} >Browse</Link>
                     </li>
+                    {user.user_data !== null ? (
+                    <li className="nav-item">
+                    <Link className="nav-link" to={'/journal/'} >Journal</Link>
+                    </li>
+                    ) : (null) }
+
                 </ul>
                 <form className="d-flex" 
                         role="search"

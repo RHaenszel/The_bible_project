@@ -10,10 +10,24 @@ class App_User(AbstractUser):
     REQUIRED_FIELDS = []
     
     def __str__(self):
-        return f"{self.first_name} | {self.last_name} | {self.email}"    
+        return f"{self.first_name} | {self.last_name} | {self.email} "    
  
  
  
+class Bible_Journals(models.Model):
+    title = models.CharField(max_length=250, blank=False, null=False)
+    name_bible = models.CharField(max_length=40, blank=False, null=False)
+    book = models.CharField(max_length=40, blank=False, null=False)
+    chapter = models.IntegerField()
+    start = models.IntegerField()
+    end = models.IntegerField()
+    journal_entry = models.TextField(blank=False)
+    user_fk = models.ForeignKey('App_User', on_delete=models.CASCADE, related_name='bible_journal')
+ 
+    def __str__(self):
+        return f"{self.title} | {self.user_fk} | {self.book}"
+    
+    
     # class AbstractUser(AbstractBaseUser, PermissionsMixin):
     # """
     # An abstract base class implementing a fully featured User model with

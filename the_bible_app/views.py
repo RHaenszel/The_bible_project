@@ -65,7 +65,8 @@ def user_curr_user(req):
         print(user_data) #json string
         user_data_processed = json.loads(user_data)
         print(user_data_processed[0]['fields']['first_name']) #json converted to Dictionary 
-        return JsonResponse({"user_data" : user_data_processed[0]['fields']})
+        return JsonResponse({"user_data" : user_data_processed[0]['fields'],
+                             "pk" : user_data_processed[0]['pk']})
     else:
         return JsonResponse({"user_data" : None})
 

@@ -10,7 +10,7 @@ export function SearchResults () {
     const {searchData, setSearchData} = useContext(SearchContext)
     const {bibleBook, setBibleBook} = useContext(BibleBookContext)
     
-    console.log("Search Page SearchData: ", searchData)
+    // console.log("Search Page SearchData: ", searchData)
 
     return (
 

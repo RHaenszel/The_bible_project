@@ -9,7 +9,7 @@ export const signUp = async(firstName, lastName, email, password) => {
         'email' : email,
         'password' : password
     });
-    console.log(response.data.success)
+    // console.log(response.data.success)
     return response.data.success
 }
 
@@ -20,7 +20,7 @@ export const logIn = async(loginEmail, loginPassword, setUser) => {
         'password' : loginPassword
     });
     
-    console.log(response.data.signin)
+    // console.log(response.data.signin)
 
     const getCurrentUser = async () => {
         setUser(await currentUser());
@@ -32,13 +32,13 @@ export const logIn = async(loginEmail, loginPassword, setUser) => {
 
 export const currentUser = async() => {
     let response = await axios.get('currentuser/')
-    console.log(response.data)
+    // console.log(response.data)
     return response.data
 }
 
 export const logOut = async (setUser) => {
     let response = await axios.post('signout/')
-    console.log(response)
+    // console.log(response)
 
     const getCurrentUser = async () => {
         setUser(await currentUser());
@@ -52,7 +52,7 @@ export const search = async (searchTerm, setUser, setSearchData) => {
   let response = await axios.post('/search/', {
     'search_term' : searchTerm,
 });
-  console.log("Res Data Newdata", response.data.newdata)
+  // console.log("Res Data Newdata", response.data.newdata)
   setSearchData(response.data.newdata)
   const getCurrentUser = async () => {
       setUser(await currentUser());
@@ -62,15 +62,22 @@ export const search = async (searchTerm, setUser, setSearchData) => {
   return response.data
 }
 
+export const saveJournal = async (journalTitle, journalEntry, bibleBook) => {
+  let response = await axios.post('/journaldata/', {
+    'bibleBook' : bibleBook,
+    'journalTitle' : journalTitle,
+    'journalEntry' : journalEntry
+  })
+  // console.log(journalEntry)
+  // console.log(bibleBook)
+  console.log(response.data)
+  return response.data
+}
 
+export const getJournal = async () => {
+  let response = await axios.get('/journaldata/')
+  
+  console.log(response.data)
+  return response.data
+}
 
-/*
-
-useEffect (() => {
-    const getCurrentUser = async () => {
-      setUser(await currentUser());
-    }
-    getCurrentUser()
-  }, []);
-
-*/

@@ -10,7 +10,7 @@ export function SearchComp(props){
     const {searchData, setSearchData} = useContext(SearchContext)
     const {bibleBook, setBibleBook} = useContext(BibleBookContext)
     const navigate = useNavigate();
-    console.log("Props:", props)
+    // console.log("Props:", props)
 
     return (
         <div className="card mt-1 me-5"

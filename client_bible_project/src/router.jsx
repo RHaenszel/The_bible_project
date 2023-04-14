@@ -5,6 +5,7 @@ import LogIn from './components/Login';
 import { Home } from './components/Home';
 import SearchResults from './components/SearchResults';
 import BibleBrowse, { loaderBibleBrowse } from './components/BibleBrowse';
+import Journal from './components/Journal';
 
 
 
@@ -36,6 +37,10 @@ const Router = createHashRouter([{
             path: "/browse/",
             element: <BibleBrowse />,
             // loader: loaderBibleBrowse
+        },
+        {
+            path: "/journal/",
+            element: <Journal />
         }
 
 

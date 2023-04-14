@@ -14,6 +14,6 @@ urlpatterns = [
     path('currentuser/', views.user_curr_user, name='currentuser'),
     path('signout/', views.user_sign_out, name= 'signout'),
     path('passages/', bibleapi.passage_from_Bible),
-    path('search/', bibleapi.search_Bible)
-    
+    path('search/', bibleapi.search_Bible),
+    path('journaldata/', bibleapi.journal_Bible)
 ]

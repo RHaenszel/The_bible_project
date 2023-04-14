@@ -80,7 +80,7 @@ export function SignUp() {
                     </div>
                     <div className="col-2" >
                         <div class="form-floating mb-3">
-                            <input className="btn btn-primary btn-lg mt-1" type="submit" value="Sign Up" />
+                            <input className="btn btn-primary mt-1" type="submit" value="Sign Up" />
                         </div>
                     </div> 
                 </div>

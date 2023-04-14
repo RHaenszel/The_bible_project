@@ -5,16 +5,45 @@ from django.contrib.auth import authenticate, login, logout
 from .models import *
 from django.core.serializers import serialize
 from django.views.decorators.csrf import csrf_exempt
-import requests
-import logging
-import json
+import requests, time, json
 from pathlib import Path
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 API_KEY = os.environ['API_KEY']
-
+# {'bibleBook': {'name_bible': 'ENGESV', 'book': 'MAT', 'chapter': 1, 'start': 1, 'end': 25}, 'journalEntry': 'This is a Journal entry!!!'}
+@api_view(["POST", 'GET'])
+def journal_Bible(req):
+    if req.method == "POST":
+        try:
+            print('POST')
+            print(req.data['bibleBook'])
+            print(req.user)
+            title = req.data['journalEntry']
+            name_bible = req.data['bibleBook']['name_bible']
+            book = req.data['bibleBook']['book']
+            chapter = req.data['bibleBook']['chapter']
+            start = req.data['bibleBook']['start']
+            end = req.data['bibleBook']['end']
+            journal_entry = req.data['journalEntry']
+            new_entry = Bible_Journals.objects.create(user_fk=req.user, title=title, name_bible=name_bible, book=book, chapter=chapter, start=start, end=end, journal_entry=journal_entry )
+            new_entry.save()
+            return JsonResponse({'success': True})
+        except Exception as error:
+            print(error)
+            return JsonResponse({'success': False})
+    elif req.method == "GET":
+        print('GET')
+        try:
+            time.sleep(1)
+            entries = list(Bible_Journals.objects.filter(user_fk=req.user).values())
+            print(entries)
+            return JsonResponse({'entries': entries})
+        except Exception as error:
+            print(error)
+            return JsonResponse({'success': False})
+    return JsonResponse({'success': False})   
 
 @api_view(["POST"])
 def search_Bible(req):
