@@ -3,7 +3,8 @@ import { UserContext, SearchContext, BibleBookContext } from "../App";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BibleBrowseFormater from "./sub/BibleBrowseFormater";
-import { getJournal, saveJournal } from "../utilites";
+import { getJournal, saveJournal, deleteJournal} from "../utilites";
+import JournalComp from "./sub/JournalComp";
 
 export async function journalBibleData(value = null) {
   // console.log("VALUE", value)
@@ -20,6 +21,7 @@ export function Journal() {
   const { searchData, setSearchData } = useContext(SearchContext);
   const { bibleBook, setBibleBook } = useContext(BibleBookContext);
 
+//   const [journalID, setJournalID] = useState(null);
   const [journalTitle, setJournalTitle] = useState("");
   const [journalEntry, setJournalEntry] = useState("");
   const [journalBiblePassageData, setJournalBiblePassageData] = useState(null);
@@ -59,11 +61,33 @@ export function Journal() {
                         justify-content-between 
                         border-success-subtle first_container"
         >
-          <div className="container side_bar col-2">
+
+
+          <div className="container side_bar col-3">
             <p>Side Bar</p>
-            {storedJournal.entries.length !== 0 ? (<p>yes</p>) : (<p>No</p>)}
+
+            {storedJournal.entries.length !== 0 ? 
+                    storedJournal.entries.map((item) => (
+                        <JournalComp
+                        id={item.id}
+                        name_bible={item.name_bible}
+                        book={item.book}
+                        chapter={item.chapter}
+                        start={item.start}
+                        end={item.end}
+                        title={item.title}
+                        journal_entry={item.journal_entry}
+                        user_fk_id={item.user_fk_id}
+                        setJournalTitle={setJournalTitle}
+                        setJournalEntry={setJournalEntry}
+                        setJournalBiblePassageData={setJournalBiblePassageData}
+                        />))
+             : <p>No</p>}
           </div>   {/*  end sidebar */}
-          <div className="container mainLeftCol col-10 mt-2">
+
+          
+          
+          <div className="container mainLeftCol col-9 mt-2">
             {/* { searchData.length == 0 ? <p>Empty</p> : <p>Not Empty{searchData[0]['book_name']}</p>} */}
             {/* <p>Click card for full Chapter</p> */}
             <div className="container mt-1 mb-5">
@@ -115,6 +139,24 @@ export function Journal() {
               >
                 <div className="card-body">
                 <h4 className="card-title">Journal Entry</h4>
+                { bibleBook['id'] != null
+                      ? <button className="card-title" 
+                      onClick={(event) => [
+                        event.preventDefault(),
+                        deleteJournal(journalTitle, journalEntry, bibleBook),
+                        setTemp(journalEntry),
+                        setJournalTitle(""),
+                        setJournalEntry(""),
+                        setBibleBook({
+                                name_bible: "ENGESV",
+                                book: "MAT",
+                                chapter: 1,
+                                start: 1,
+                                end: 2,
+                        })
+                      ]}
+                      >Delete</button>
+                      : <p>No</p>}
                   <form
                     onSubmit={(event) => [
                       event.preventDefault(),
@@ -159,11 +201,21 @@ export function Journal() {
                         </div>
                       </div>
                     </div>
-                    <input
+                    { bibleBook['id'] != null
+                      ? <p>Yes</p>
+                      : <p>No</p>}
+                      { bibleBook['id'] != null
+                      ? <input
+                      className="btn btn-primary mt-3"
+                      type="submit"
+                      value="Update Entry"
+                    />
+                      : <input
                       className="btn btn-primary mt-3"
                       type="submit"
                       value="Save Entry"
-                    />
+                    /> }
+                    
                   </form>
                 </div>
               </div>

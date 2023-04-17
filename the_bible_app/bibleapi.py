@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout
@@ -12,33 +12,74 @@ import os
 
 load_dotenv()
 API_KEY = os.environ['API_KEY']
-# {'bibleBook': {'name_bible': 'ENGESV', 'book': 'MAT', 'chapter': 1, 'start': 1, 'end': 25}, 'journalEntry': 'This is a Journal entry!!!'}
+ESV_API_KEY = os.environ['ESV_API_KEY']
+
+def audio(req):
+    book = req.GET['book']
+    chapter = req.GET['chapter']
+    start = req.GET['start']
+    end = req.GET['end']
+    print(book, chapter, start, end)
+    headers = {
+    'Authorization': 'Token 8952d83872792aca126e21a982e4a9659425769d',
+    }
+
+    response = requests.get(f"https://api.esv.org/v3/passage/audio/?q={book}+{chapter}:{start}-{end}", headers=headers)
+    # print(response.content)
+    open("audio.mp3", "wb").write(response.content)
+    f = open("audio.mp3","rb") 
+    response2 = HttpResponse()
+    response2.write(f.read())
+    response2['Content-Type'] ='audio/mp3'
+    response2['Content-Length'] =os.path.getsize("audio.mp3")
+    return response2
+    # return response.content
+
+
+
 @api_view(["POST", 'GET'])
 def journal_Bible(req):
     if req.method == "POST":
         try:
             print('POST')
-            print(req.data['bibleBook'])
+            print(req.data)
             print(req.user)
-            title = req.data['journalEntry']
+            title = req.data['journalTitle']
             name_bible = req.data['bibleBook']['name_bible']
             book = req.data['bibleBook']['book']
             chapter = req.data['bibleBook']['chapter']
             start = req.data['bibleBook']['start']
             end = req.data['bibleBook']['end']
             journal_entry = req.data['journalEntry']
-            new_entry = Bible_Journals.objects.create(user_fk=req.user, title=title, name_bible=name_bible, book=book, chapter=chapter, start=start, end=end, journal_entry=journal_entry )
-            new_entry.save()
+            if "id" in req.data['bibleBook'].keys():
+                print("Update Entry")
+                print("ID IS THERE", req.data['bibleBook']['id'])
+                if req.data['deleteFlag']:
+                    print("Delete path")
+                    print("Delete Path ID", req.data['bibleBook']['id'])
+                    rec_id = req.data['bibleBook']['id']
+                    record = Bible_Journals.objects.get(id=rec_id)
+                    record.delete()
+                else:    
+                    rec_id = req.data['bibleBook']['id']
+                    record = Bible_Journals.objects.get(id=rec_id)
+                    record.title = title
+                    record.journal_entry = journal_entry
+                    record.save()
+            else:
+                print("New Entry")
+                new_entry = Bible_Journals.objects.create(user_fk=req.user, title=title, name_bible=name_bible, book=book, chapter=chapter, start=start, end=end, journal_entry=journal_entry )
+                new_entry.save()
             return JsonResponse({'success': True})
         except Exception as error:
-            print(error)
+            print("This is the Error:", error)
             return JsonResponse({'success': False})
     elif req.method == "GET":
         print('GET')
         try:
             time.sleep(1)
             entries = list(Bible_Journals.objects.filter(user_fk=req.user).values())
-            print(entries)
+            # print(entries)
             return JsonResponse({'entries': entries})
         except Exception as error:
             print(error)
@@ -99,25 +140,34 @@ def passage_from_Bible(req):
         
         url = f"https://b4.dbt.io/api/bibles/filesets/{name_Bible}/{book}/{chapter}?verse_start={start}&verse_end={end}&v=4&key={API_KEY}"
 
+        url2 = f"https://b4.dbt.io/api/bibles/filesets/{name_Bible}/{book}/{chapter}?v=4&key={API_KEY}"
+        
         payload={}
         headers = {}
 
         response = requests.request("GET", url, headers=headers, data=payload)
+        response2 = requests.request("GET", url2, headers=headers, data=payload)
+        # print("Response2: ", response2.json())
+        info2 = response2.json()
+        newdata2 = info2['data']
+        # print("NEWDATA2: ", newdata2)
+        chapter_last_verse = newdata2[-1]['verse_end']
+        # print("ChapterLastVerse", chapter_last_verse)
         
         info = response.json()
         newdata = info['data']
         length_of_newdata = len(newdata) - 1
         last_verse_number = newdata[length_of_newdata]['verse_end']
         start_verse_number = newdata[0]['verse_start']
-        return JsonResponse({'newdata': newdata, 'start_verse_number': start_verse_number, 'last_verse_number': last_verse_number, 'book': book, 'start': start, 'end': end, 'chapter': chapter, 'name_Bible': name_Bible})
+        return JsonResponse({'newdata': newdata, 'start_verse_number': start_verse_number, 'last_verse_number': last_verse_number, 'book': book, 'start': start, 'end': end, 'chapter': chapter, 'name_Bible': name_Bible, 'chapter_last_verse' : chapter_last_verse})
     except:
         
         print("NO")
         name_Bible = "ENGESV"
-        book = "MAT"
+        book = "LUK"
         chapter = 1
         start = 1
-        end = 25
+        end = 4
         
         url = f"https://b4.dbt.io/api/bibles/filesets/{name_Bible}/{book}/{chapter}?verse_start={start}&verse_end={end}&v=4&key={API_KEY}"
 

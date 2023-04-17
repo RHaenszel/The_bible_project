@@ -19,8 +19,8 @@ export function SearchComp(props){
                             'name_bible' : "ENGESV",
                             'book' : props.book_id,
                             'chapter' : props.chapter,
-                            'start' : props.verse_start - 2,
-                            'end' : props.verse_end + 2
+                            'start' : props.verse_start,
+                            'end' : props.verse_end
                         }),
                         navigate("/browse")
                     ]}

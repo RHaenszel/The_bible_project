@@ -66,7 +66,21 @@ export const saveJournal = async (journalTitle, journalEntry, bibleBook) => {
   let response = await axios.post('/journaldata/', {
     'bibleBook' : bibleBook,
     'journalTitle' : journalTitle,
-    'journalEntry' : journalEntry
+    'journalEntry' : journalEntry,
+    'deleteFlag' : false
+  })
+  // console.log(journalEntry)
+  // console.log(bibleBook)
+  console.log(response.data)
+  return response.data
+}
+
+export const deleteJournal = async (journalTitle, journalEntry, bibleBook) => {
+  let response = await axios.post('/journaldata/', {
+    'bibleBook' : bibleBook,
+    'journalTitle' : journalTitle,
+    'journalEntry' : journalEntry,
+    'deleteFlag' : true
   })
   // console.log(journalEntry)
   // console.log(bibleBook)
@@ -81,3 +95,9 @@ export const getJournal = async () => {
   return response.data
 }
 
+export const audio = async () => {
+  let response = await axios.get('/audio/')
+
+  console.log(response)
+  return response
+}

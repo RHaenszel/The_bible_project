@@ -16,7 +16,7 @@ export const NavBar = () => {
     return (
 
         <>
-{user.user_data !== null ? user.user_data.first_name : null}
+{/* {user.user_data !== null ? user.user_data.first_name : null} */}
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
                 <Link className="navbar-brand" to={'/'} >The Bible Project</Link>
