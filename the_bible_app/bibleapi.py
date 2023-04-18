@@ -52,25 +52,29 @@ def journal_Bible(req):
             end = req.data['bibleBook']['end']
             journal_entry = req.data['journalEntry']
             if "id" in req.data['bibleBook'].keys():
-                print("Update Entry")
-                print("ID IS THERE", req.data['bibleBook']['id'])
+                # print("Update Entry")
+                # print("ID IS THERE", req.data['bibleBook']['id'])
                 if req.data['deleteFlag']:
-                    print("Delete path")
-                    print("Delete Path ID", req.data['bibleBook']['id'])
+                    # print("Delete path")
+                    # print("Delete Path ID", req.data['bibleBook']['id'])
                     rec_id = req.data['bibleBook']['id']
                     record = Bible_Journals.objects.get(id=rec_id)
                     record.delete()
+                    return JsonResponse({'success': True})
                 else:    
                     rec_id = req.data['bibleBook']['id']
                     record = Bible_Journals.objects.get(id=rec_id)
                     record.title = title
                     record.journal_entry = journal_entry
                     record.save()
+                    return JsonResponse({'success': True, "id" : rec_id})
             else:
-                print("New Entry")
+                # print("New Entry")
                 new_entry = Bible_Journals.objects.create(user_fk=req.user, title=title, name_bible=name_bible, book=book, chapter=chapter, start=start, end=end, journal_entry=journal_entry )
+                # print("After Save ID:", new_entry.id)
+                saved_id = new_entry.id
                 new_entry.save()
-            return JsonResponse({'success': True})
+            return JsonResponse({'success': True, "id" : saved_id})
         except Exception as error:
             print("This is the Error:", error)
             return JsonResponse({'success': False})

@@ -62,7 +62,7 @@ export const search = async (searchTerm, setUser, setSearchData) => {
   return response.data
 }
 
-export const saveJournal = async (journalTitle, journalEntry, bibleBook) => {
+export const saveJournal = async (journalTitle, journalEntry, bibleBook, setBibleBook) => {
   let response = await axios.post('/journaldata/', {
     'bibleBook' : bibleBook,
     'journalTitle' : journalTitle,
@@ -71,7 +71,17 @@ export const saveJournal = async (journalTitle, journalEntry, bibleBook) => {
   })
   // console.log(journalEntry)
   // console.log(bibleBook)
-  console.log(response.data)
+
+    setBibleBook({
+      name_bible: bibleBook.name_bible,
+      book: bibleBook.book,
+      chapter: bibleBook.chapter,
+      start: bibleBook.start,
+      end: bibleBook.end,
+      id: response.data.id
+  })
+  // console.log(bibleBook)
+  // console.log("saveJournal:", response.data)
   return response.data
 }
 
@@ -83,21 +93,21 @@ export const deleteJournal = async (journalTitle, journalEntry, bibleBook) => {
     'deleteFlag' : true
   })
   // console.log(journalEntry)
-  // console.log(bibleBook)
-  console.log(response.data)
+  
+  // console.log(response.data)
   return response.data
 }
 
 export const getJournal = async () => {
   let response = await axios.get('/journaldata/')
   
-  console.log(response.data)
+  // console.log(response.data)
   return response.data
 }
 
-export const audio = async () => {
-  let response = await axios.get('/audio/')
+// export const audio = async () => {
+//   let response = await axios.get('/audio/')
 
-  console.log(response)
-  return response
-}
+//   console.log(response)
+//   return response
+// }
