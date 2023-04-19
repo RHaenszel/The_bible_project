@@ -16,7 +16,7 @@ export function JournalComp (props) {
     // console.log("Search Page SearchData: ", searchData)
 
     return (
-
+        // Journal Side Bar
         <div className="container card">
             <div className="container card-body"
                 onClick={(event) => [

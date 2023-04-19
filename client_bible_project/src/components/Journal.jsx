@@ -43,7 +43,8 @@ export function Journal() {
   }, [temp]);
 
   console.log("Journal.jsx StoredJournal:", storedJournal.entries);
-  console.log("Journal.jsx temp:", temp);
+//   console.log("Journal.jsx temp:", temp);
+//   console.log("BIBLEBOOK:", bibleBook)
 
   return (
     <div className="container">
@@ -160,7 +161,7 @@ export function Journal() {
                   <form
                     onSubmit={(event) => [
                       event.preventDefault(),
-                      saveJournal(journalTitle, journalEntry, bibleBook),
+                      saveJournal(journalTitle, journalEntry, bibleBook, setBibleBook),
                       setTemp(journalEntry),
                     ]}
                     style={{ display: "flex", flexDirection: "column" }}
@@ -202,7 +203,7 @@ export function Journal() {
                       </div>
                     </div>
                     { bibleBook['id'] != null
-                      ? <p>Yes</p>
+                      ? bibleBook['id']
                       : <p>No</p>}
                       { bibleBook['id'] != null
                       ? <input
