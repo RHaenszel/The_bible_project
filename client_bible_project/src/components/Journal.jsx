@@ -42,7 +42,7 @@ export function Journal() {
     settingJournaldata();
   }, [temp]);
 
-//   console.log("Journal.jsx StoredJournal:", storedJournal.entries);
+  console.log("Journal.jsx StoredJournal:", storedJournal.entries);
 //   console.log("Journal.jsx temp:", temp);
 //   console.log("BIBLEBOOK:", bibleBook)
 
@@ -203,7 +203,7 @@ export function Journal() {
                       </div>
                     </div>
                     { bibleBook['id'] != null
-                      ? <p>Yes</p>
+                      ? bibleBook['id']
                       : <p>No</p>}
                       { bibleBook['id'] != null
                       ? <input

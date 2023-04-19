@@ -5,6 +5,7 @@ import axios from "axios";
 import BibleBrowseFormater from "./sub/BibleBrowseFormater";
 import { audio } from "../utilites";
 import AudioComp from "./sub/AudioComp";
+import BrowseMenu from "./sub/BrowseMenu";
 
 export async function retrieveBibleData(value = null) {
   // console.log("VALUE", value)
@@ -37,6 +38,12 @@ export function BibleBrowse() {
   );
 
   useEffect(() => {
+    
+    setBibleBook({...bibleBook, 'id' : null})
+    
+  }, []);
+
+  useEffect(() => {
     const settingBibledata = async () => {
       setBiblePassageData(await retrieveBibleData(bibleBook));
     };
@@ -54,9 +61,13 @@ export function BibleBrowse() {
   console.log(bibleBook);
   return (
     <div className="container">
-      
-      <AudioComp audioLink={audioLink} bibleBook={bibleBook}/>
+      <div>
+        <BrowseMenu  bibleBook={bibleBook}  setBibleBook={setBibleBook}/>
+      </div>
 
+      <div>
+        <AudioComp audioLink={audioLink} bibleBook={bibleBook}/>
+      </div>
       <h2>Bible Browser</h2>
       <div className="container">
         {/* { searchData.length == 0 ? <p>Empty</p> : <p>Not Empty{searchData[0]['book_name']}</p>} */}

@@ -11,7 +11,7 @@ export function BibleBrowseFormater(props){
     return (
         
                <>
-                ({props.verse_start}) {props.verse_text} 
+                &nbsp;<b>({props.verse_start})</b> {props.verse_text} 
                </>  
 
     )
