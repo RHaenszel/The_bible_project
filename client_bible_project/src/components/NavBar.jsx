@@ -15,11 +15,13 @@ export const NavBar = () => {
 
     return (
 
-        <>
+        <div className="container mt-1 mb-1">
 {/* {user.user_data !== null ? user.user_data.first_name : null} */}
-            <nav className="navbar navbar-expand-lg bg-body-tertiary">
-            <div className="container-fluid">
-                <Link className="navbar-brand" to={'/'} >The Bible Project</Link>
+            <nav className="navbar navbar-expand-lg bg-body-tertiary rounded-2 nav_bar_background">
+            <div className="container-fluid nav_bar_background">
+                <Link className="navbar-brand" to={'/'} >
+                <img className="rounded-2" src="/static/jesus_icon.jpg" alt="Bootstrap" width="75" height="50"/>
+                </Link>
                 <button className="navbar-toggler" 
                         type="button" 
                         data-bs-toggle="collapse" 
@@ -44,6 +46,11 @@ export const NavBar = () => {
                     {user.user_data !== null ? (
                     <li className="nav-item">
                     <Link className="nav-link" to={'/journal/'} >Journal</Link>
+                    </li>
+                    ) : (null) }
+                    {user.user_data !== null ? (
+                    <li className="nav-item">
+                    <Link className="nav-link" to={'/profile/'} >Profile</Link>
                     </li>
                     ) : (null) }
 
@@ -75,7 +82,7 @@ export const NavBar = () => {
             </div>
             </nav>
 
-        </>
+        </div>
 
     )
 }

@@ -50,9 +50,9 @@ export function Journal() {
     <div className="container">
       <h2>Journal Page</h2>
       {/* { searchData.length == 0 ? <p>Empty</p> : <p>Not Empty{searchData[0]['book_name']}</p>} */}
-      <p>Journal page</p>
+      
       {user.user_data !== null ? (
-        user.user_data.first_name
+        <p>{user.user_data.first_name}'s Journal page</p>
       ) : (
         <h2>You are not logged in.</h2>
       )}
@@ -157,7 +157,7 @@ export function Journal() {
                         })
                       ]}
                       >Delete</button>
-                      : <p>No</p>}
+                      : null }
                   <form
                     onSubmit={(event) => [
                       event.preventDefault(),
@@ -204,7 +204,7 @@ export function Journal() {
                     </div>
                     { bibleBook['id'] != null
                       ? bibleBook['id']
-                      : <p>No</p>}
+                      : null }
                       { bibleBook['id'] != null
                       ? <input
                       className="btn btn-primary mt-3"

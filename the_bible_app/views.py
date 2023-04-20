@@ -12,6 +12,35 @@ def send_the_index(req):
     return HttpResponse(the_index)
 
 @api_view(["POST"])
+def user_update(request):
+    # print(request.data)
+    email = request.data['email']
+    password = request.data['password']
+    first_name = request.data['first_name']
+    last_name = request.data['last_name']
+    pk = request.data['pk']
+    old_password = request.data['old_password']
+    print("USER Passed:", first_name, last_name, email, password, old_password)
+    try: #object.create_user will hash password / object.create will make password plain text
+        user_id = pk
+        user_record = App_User.objects.get(id=user_id)
+        print(user_record)
+        password_change = False
+        user_record.first_name = first_name
+        user_record.last_name = last_name
+        # user_record.set_password(password)
+        if user_record.check_password(old_password):
+            print("Passwords match")
+            user_record.set_password(password)
+            password_change = True
+        user_record.save()
+        
+        return JsonResponse({"success" : True, "password_change" : password_change})
+    except Exception as error:
+        print(error)
+        return JsonResponse({"success" : False})
+
+@api_view(["POST"])
 def user_sign_up(request):
     # print(request.data)
     email = request.data['email']

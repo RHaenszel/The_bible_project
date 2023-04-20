@@ -13,7 +13,7 @@ export function Home () {
             <h2>Home Page</h2>
             <h4>
                 Welcome {user.user_data !== null ? user.user_data.first_name : null} 
-                {user.user_data !== null ? user.user_data.last_name : null}
+                &nbsp;{user.user_data !== null ? user.user_data.last_name : null}
             </h4>
 
         </div>

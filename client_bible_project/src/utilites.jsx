@@ -2,6 +2,30 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 
+export const update = async(firstName, lastName, email, password, pk, oldPassword, setUser) => {
+  let response = await axios.post('/update/', {
+      'first_name' : firstName,
+      'last_name' : lastName,
+      'email' : email,
+      'password' : password,
+      'pk' : pk,
+      'old_password' : oldPassword
+  });
+
+  if (response.data.success && response.data.password_change){
+    let response2 = await axios.post('signout/')
+    // console.log(response)
+
+    const getCurrentUser = async () => {
+        setUser(await currentUser());
+      }
+      getCurrentUser()
+  }
+
+  console.log(response.data.success, response.data.password_change)
+  return response.data.success
+}
+
 export const signUp = async(firstName, lastName, email, password) => {
     let response = await axios.post('/signup/', {
         'first_name' : firstName,
