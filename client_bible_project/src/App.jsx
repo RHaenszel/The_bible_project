@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { NavBar } from "./components/NavBar";
 import { Outlet } from "react-router-dom";
-// import './App.css'
+import './App.css'
 
 export const UserContext = createContext(null);
 export const SearchContext = createContext(null);
@@ -38,7 +38,9 @@ function App() {
   // console.log("searchData: ", searchData[0])
   // console.log("APP bibleBook", bibleBook)
   return (
-    <div className="App container border border-success-subtle rounded-2">
+
+    <div className="App container border border-success-subtle rounded-2 background_target2">
+      
       <BibleBookContext.Provider value={{ bibleBook, setBibleBook }}>
         <SearchContext.Provider value={{ searchData, setSearchData }}>
           <UserContext.Provider value={{ user, setUser }}>
@@ -55,7 +57,7 @@ function App() {
         </p>
         
         {/* {searchData} */}
-        
+        <div className="container mb-4 background_target">
         <BibleBookContext.Provider value={{ bibleBook, setBibleBook }}>
           <SearchContext.Provider value={{ searchData, setSearchData }}>
             <UserContext.Provider value={{ user, setUser }}>
@@ -64,6 +66,7 @@ function App() {
           </SearchContext.Provider>
         </BibleBookContext.Provider>
         {/* <button className="btn btn-primary mt-1" onClick={() => logOut(setUser)} >Log Out</button> */}
+        </div>
       </div>
     </div>
   );

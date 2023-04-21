@@ -16,5 +16,6 @@ urlpatterns = [
     path('passages/', bibleapi.passage_from_Bible),
     path('search/', bibleapi.search_Bible),
     path('journaldata/', bibleapi.journal_Bible),
-    path('audio/', bibleapi.audio)
+    path('audio/', bibleapi.audio),
+    path('update/', views.user_update),
 ]

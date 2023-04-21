@@ -14,7 +14,8 @@ export function LogIn() {
 
 
   return (
-    <div className="container">
+    
+    <div className="container border rounded-2 login_card">
         <div className="card">
             <div className="card-body">
                 <form
@@ -60,6 +61,7 @@ export function LogIn() {
             </div>
         </div>
     </div>
+    
   );
 }
 

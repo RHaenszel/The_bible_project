@@ -142,7 +142,9 @@ def passage_from_Bible(req):
             chapter = req.data['chapter']
             start = req.data['start']
             end = req.data['end']
-        
+        if start < 1:
+            start = 1
+            
         url = f"https://b4.dbt.io/api/bibles/filesets/{name_Bible}/{book}/{chapter}?verse_start={start}&verse_end={end}&v=4&key={API_KEY}"
 
         url2 = f"https://b4.dbt.io/api/bibles/filesets/{name_Bible}/{book}/{chapter}?v=4&key={API_KEY}"
@@ -163,8 +165,10 @@ def passage_from_Bible(req):
         newdata = info['data']
         length_of_newdata = len(newdata) - 1
         last_verse_number = newdata[length_of_newdata]['verse_end']
+        if last_verse_number > chapter_last_verse:
+            last_verse_number = chapter_last_verse
         start_verse_number = newdata[0]['verse_start']
-        return JsonResponse({'newdata': newdata, 'start_verse_number': start_verse_number, 'last_verse_number': last_verse_number, 'book': book, 'start': start, 'end': end, 'chapter': chapter, 'name_Bible': name_Bible, 'chapter_last_verse' : chapter_last_verse})
+        return JsonResponse({'newdata': newdata, 'start_verse_number': start_verse_number, 'last_verse_number': last_verse_number, 'book': book, 'start': start, 'end': last_verse_number, 'chapter': chapter, 'name_Bible': name_Bible, 'chapter_last_verse' : chapter_last_verse})
     except:
         
         print("NO")

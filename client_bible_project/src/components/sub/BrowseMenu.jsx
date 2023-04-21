@@ -10,6 +10,45 @@ export function BrowseMenu(props) {
     console.log("B MENU destruct", bibleBook)
 
     const bookOptions = [
+        { label: 'Genesis', value: 'GEN 50' },
+        { label: 'Exodus', value: 'EXO 40' },
+        { label: 'Leviticus', value: 'LEV 27' },
+        { label: 'Numbers', value: 'NUM 36' },
+        { label: 'Deuteronomy', value: 'DEU 34' },
+        { label: 'Joshua', value: 'JOS 24' },
+        { label: 'Judges', value: 'JDG 21' },
+        { label: 'Ruth', value: 'RUT 4' },
+        { label: '1 Samuel', value: '1SA 31' },
+        { label: '2 Samuel', value: '2SA 24' },
+        { label: '1 Kings', value: '1KI 22' },
+        { label: '2 Kings', value: '2KI 25' },
+        { label: '1 Chronicles', value: '1CH 29' },
+        { label: '2 Chronicles', value: '2CH 36' },
+        { label: 'Ezra', value: 'EZR 10' },
+        { label: 'Nehemiah', value: 'NEH 13' },
+        { label: 'Esther', value: 'EST 10' },
+        { label: 'Job', value: 'JOB 42' },
+        { label: 'Psalm', value: 'PSA 150' },
+        { label: 'Proverbs', value: 'PRO 31' },
+        { label: 'Ecclesiastes', value: 'ECC 12' },
+        { label: 'Song of Solomon', value: 'SNG 8' },
+        { label: 'Isaiah', value: 'ISA 66' },
+        { label: 'Jeremiah', value: 'JER 52' },
+        { label: 'Lamentations', value: 'LAM 5' },
+        { label: 'Ezekiel', value: 'EZK 48' },
+        { label: 'Daniel', value: 'DAN 12' },
+        { label: 'Hosea', value: 'HOS 14' },
+        { label: 'Joel', value: 'JOL 3' },
+        { label: 'Amos', value: 'AMO 9' },
+        { label: 'Obadiah', value: 'OBA 1' },
+        { label: 'Jonah', value: 'JON 4' },
+        { label: 'Micah', value: 'MIC 7' },
+        { label: 'Nahum', value: 'NAM 3' },
+        { label: 'Habakkuk', value: 'HAB 3' },
+        { label: 'Zephaniah', value: 'ZEP 3' },
+        { label: 'Hagga', value: 'HAG 2' },
+        { label: 'Zechariah', value: 'ZEC 14' },
+        { label: 'Malachi', value: 'MAL 4' },
         { label: 'Matthew', value: 'MAT 28' },
         { label: 'Mark', value: 'MRK 16' },
         { label: 'Luke', value: 'LUK 24' },
@@ -19,7 +58,7 @@ export function BrowseMenu(props) {
         { label: '1 Corinthians', value: '1CO 16' },
         { label: '2 Corinthians', value: '2CO 13' },
         { label: 'Galatians', value: 'GAL 6' },
-        { label: 'Ephesians ', value: 'EPH 6' },
+        { label: 'Ephesians', value: 'EPH 6' },
         { label: 'Philippians', value: 'PHP 4' },
         { label: 'Colossians', value: 'COL 4' },
         { label: '1 Thessalonians', value: '1TH 5' },
@@ -63,19 +102,10 @@ export function BrowseMenu(props) {
         // console.log("NEW ARRAY:", newArray)
         setBookValue(bValue)
         setChapterValueArray(newArray)
+        setChapterSelect(1)
         // setBibleBook({...bibleBook, 'book' : bValue})
         
         }, [bookOptionValue]); 
-
-    useEffect (() => {
-        setBibleBook({...bibleBook, 'book' : bookValue, 'chapter' : 1})
-        setChapterSelect(1)
-    }, [bookValue])
-
-    useEffect (() => {
-        setBibleBook({...bibleBook, 'chapter' : chapterSelect, 'book' : bookValue})
-        console.log("INSIDE USEEFFECT BIBLEBOOK:", bibleBook)
-    }, [chapterSelect])
     
     console.log("BOOKVALUE:", bookValue)
     console.log("CHAPTERVALUEARRAY:", chapterValueArray)
@@ -99,7 +129,18 @@ export function BrowseMenu(props) {
             ))}
           </select>
         </label>
-        {/* <p>What book is selected {bookOptionValue}</p> */}
+        <button className="btn btn-primary btn-sm ms-3 mb-1"
+                  onClick={(event) =>
+                    setBibleBook({
+                      name_bible: "ENGESV",
+                      book: bookValue,
+                      chapter: chapterSelect,
+                      start: 1,
+                      end: 5,
+                      id: null,
+                    })
+                  }
+                  >Display</button>
       </div>
     );
     

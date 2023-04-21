@@ -3,25 +3,14 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { UserContext, SearchContext, BibleBookContext } from "../App";
 import axios from "axios";
 import BibleBrowseFormater from "./sub/BibleBrowseFormater";
-import { audio } from "../utilites";
 import AudioComp from "./sub/AudioComp";
 import BrowseMenu from "./sub/BrowseMenu";
 
 export async function retrieveBibleData(value = null) {
   // console.log("VALUE", value)
   let params = value;
-  // if (value == null){
-  //     const params = {
-  //         'name_bible' : "ENGESV",
-  //         'book' : "MAT",
-  //         'chapter' : 1,
-  //         'start' : 1,
-  //         'end' : 25
-  //     }
-  // }
-  // console.log(params)
   let response = await axios.post("/passages/", params);
-  console.log("LOADER BROWSER2", response.data)
+  console.log("LOADER BROWSER2", response.data);
 
   return response.data;
 }
@@ -38,9 +27,7 @@ export function BibleBrowse() {
   );
 
   useEffect(() => {
-    
-    setBibleBook({...bibleBook, 'id' : null})
-    
+    setBibleBook({ ...bibleBook, id: null });
   }, []);
 
   useEffect(() => {
@@ -51,22 +38,31 @@ export function BibleBrowse() {
   }, [bibleBook]);
 
   useEffect(() => {
-    const link = `/audio/?book=${bibleBook["book"]}&chapter=${bibleBook["chapter"]}&start=${bibleBook["start"]}&end=${bibleBook["end"]}`;
-    setAudioLink(link);
-  }, [bibleBook]);
+    if (biblePassageData != null) {
+      const link = `/audio/?book=${biblePassageData["book"]}&chapter=${biblePassageData["chapter"]}&start=${biblePassageData["start"]}&end=${biblePassageData["end"]}`;
+      setAudioLink(link);
+    }
+  }, [bibleBook, biblePassageData]);
+  useEffect (() => {
+    if (biblePassageData != null) { 
+    const data = { book : biblePassageData['book'], chapter : biblePassageData['chapter'], end : biblePassageData['end'], start : biblePassageData['start'], name_bible : biblePassageData['name_bible'], start : biblePassageData['start'], id : null
+    }
+    setBibleBook(data)
+    }
+  },[])
 
   console.log("USER: ", user);
-  console.log("AUDIO LINK", audioLink)
-  console.log("BibleBrowse Loader Data", biblePassageData)
-  console.log(bibleBook);
+  console.log("AUDIO LINK", audioLink);
+  console.log("BibleBrowse Loader Data", biblePassageData);
+  console.log("BIBLEBOOK", bibleBook);
   return (
     <div className="container">
-      <div>
-        <BrowseMenu  bibleBook={bibleBook}  setBibleBook={setBibleBook}/>
+      <div className="container mt-3 mb-2">
+        <BrowseMenu bibleBook={bibleBook} setBibleBook={setBibleBook} />
       </div>
 
       <div>
-        <AudioComp audioLink={audioLink} bibleBook={bibleBook}/>
+        <AudioComp audioLink={audioLink} bibleBook={bibleBook} />
       </div>
       <h2>Bible Browser</h2>
       <div className="container">
