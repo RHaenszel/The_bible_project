@@ -4,5 +4,5 @@ env
 /the_bible_app/__pycache__
 /the_bible_project/__pycache__
 /the_bible_app/migrations/*
-
+the_bible_fullstack.code-workspace
 

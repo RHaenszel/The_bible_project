@@ -25,9 +25,9 @@ export function SearchComp(props){
                         navigate("/browse")
                     ]}
                         >
-            <h5 className="card-header">{props.book_name}</h5>
+            <h5 className="card-header text-primary">{props.book_name}</h5>
             <div className="card-body">
-                <h6 className="card-title">Chapter: {props.chapter} 
+                <h6 className="card-title text-primary">Chapter: {props.chapter} 
                 &nbsp; &nbsp; Verse: {props.verse_start} to {props.verse_end}</h6>
                 
                 <p>{props.verse_text}</p>

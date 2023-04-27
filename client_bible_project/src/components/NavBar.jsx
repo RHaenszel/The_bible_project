@@ -33,12 +33,21 @@ export const NavBar = () => {
                     <li className="nav-item">
                     <Link className="nav-link active" to={'/'} >Home</Link>
                     </li>
+                    
+                    {user.user_data === null ? 
+                    <>
                     <li className="nav-item">
                     <Link className="nav-link" to={'/login/'} >Log In</Link>
                     </li>
+                    </> : null}
+
+                    {user.user_data === null ? 
+                    <>
                     <li className="nav-item">
                     <Link className="nav-link" to={'/signup/'} >Sign Up</Link>
                     </li>
+                    </> : null}
+                    
                     
                     <li className="nav-item">
                     <Link className="nav-link" to={'/browse/'} >Browse</Link>
@@ -74,10 +83,15 @@ export const NavBar = () => {
                             type="submit"
                             >Search</button>
                 </form>
+                <>
+                {user.user_data === null ? null :
                 <button className="btn btn-primary ms-3 btn-sm" 
                             onClick={() => [logOut(setUser),
                                             navigate("/")
                                             ]} >Log Out</button>
+                                            }
+                </>
+                
                 </div>
             </div>
             </nav>

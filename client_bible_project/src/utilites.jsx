@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useNavigate } from "react-router-dom";
 
-
-export const update = async(firstName, lastName, email, password, pk, oldPassword, setUser) => {
+export const update = async(firstName, lastName, email, password, pk, oldPassword, setUser, setOldPassword, setNewPassword) => {
   let response = await axios.post('/update/', {
       'first_name' : firstName,
       'last_name' : lastName,
@@ -21,7 +21,10 @@ export const update = async(firstName, lastName, email, password, pk, oldPasswor
       }
       getCurrentUser()
   }
-
+  if (response.data.password_change === false) {
+    setNewPassword("")
+    setOldPassword("OLD PASSWORD DID NOT MATCH. TRY AGAIN.")
+  }
   console.log(response.data.success, response.data.password_change)
   return response.data.success
 }
@@ -39,19 +42,20 @@ export const signUp = async(firstName, lastName, email, password) => {
 
 
 export const logIn = async(loginEmail, loginPassword, setUser) => {
-    let response = await axios.post('/signin/', {
+    
+  let response = await axios.post('/signin/', {
         'email' : loginEmail,
         'password' : loginPassword
     });
     
-    // console.log(response.data.signin)
+  console.log("ResDataSignin", response.data.signin)
 
-    const getCurrentUser = async () => {
-        setUser(await currentUser());
-      }
-      getCurrentUser()
+  const getCurrentUser = async () => {
+      setUser(await currentUser());
+    }
+    getCurrentUser()
 
-    return response.data.signin
+  return response.data.signin
 }
 
 export const currentUser = async() => {

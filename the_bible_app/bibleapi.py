@@ -21,7 +21,7 @@ def audio(req):
     end = req.GET['end']
     print(book, chapter, start, end)
     headers = {
-    'Authorization': 'Token 8952d83872792aca126e21a982e4a9659425769d',
+    'Authorization': f"Token {ESV_API_KEY}",
     }
 
     response = requests.get(f"https://api.esv.org/v3/passage/audio/?q={book}+{chapter}:{start}-{end}", headers=headers)

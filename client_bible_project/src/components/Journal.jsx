@@ -26,7 +26,7 @@ export function Journal() {
   const [journalEntry, setJournalEntry] = useState("");
   const [journalBiblePassageData, setJournalBiblePassageData] = useState(null);
   const [storedJournal, setStoredJournal] = useState({entries : []});
-  const [temp, setTemp] = useState("");
+  const [temp, setTemp] = useState(""); //used to refresh saved journal entries side bar
 
   useEffect(() => {
     const settingBibledata = async () => {
@@ -41,7 +41,7 @@ export function Journal() {
     };
     settingJournaldata();
   }, [temp]);
-
+  console.log("TEMP", temp)
   console.log("Journal.jsx StoredJournal:", storedJournal.entries);
 //   console.log("Journal.jsx temp:", temp);
 //   console.log("BIBLEBOOK:", bibleBook)
@@ -65,7 +65,7 @@ export function Journal() {
 
 
           <div className="container side_bar col-3">
-            <p>Side Bar</p>
+            <p className="mt-3 ">Save Journal Entries</p>
 
             {storedJournal.entries.length !== 0 ? 
                     storedJournal.entries.map((item) => (
@@ -83,7 +83,7 @@ export function Journal() {
                         setJournalEntry={setJournalEntry}
                         setJournalBiblePassageData={setJournalBiblePassageData}
                         />))
-             : <p>No</p>}
+             : <p> </p>}
           </div>   {/*  end sidebar */}
 
           
@@ -141,11 +141,11 @@ export function Journal() {
                 <div className="card-body">
                 <h4 className="card-title">Journal Entry</h4>
                 { bibleBook['id'] != null
-                      ? <button className="card-title" 
+                      ? <button className="border-2 btn btn-sm btn-outline-danger mb-2" 
                       onClick={(event) => [
                         event.preventDefault(),
                         deleteJournal(journalTitle, journalEntry, bibleBook),
-                        setTemp(journalEntry),
+                        setTemp(Date.now()),
                         setJournalTitle(""),
                         setJournalEntry(""),
                         setBibleBook({
@@ -162,7 +162,7 @@ export function Journal() {
                     onSubmit={(event) => [
                       event.preventDefault(),
                       saveJournal(journalTitle, journalEntry, bibleBook, setBibleBook),
-                      setTemp(journalEntry),
+                      setTemp(Date.now()),
                     ]}
                     style={{ display: "flex", flexDirection: "column" }}
                   >
@@ -202,9 +202,9 @@ export function Journal() {
                         </div>
                       </div>
                     </div>
-                    { bibleBook['id'] != null
+                    {/* { bibleBook['id'] != null
                       ? bibleBook['id']
-                      : null }
+                      : null } */}
                       { bibleBook['id'] != null
                       ? <input
                       className="btn btn-primary mt-3"

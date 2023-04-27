@@ -51,9 +51,10 @@ function App() {
       <div className="container">
         
         <p className="container border border-success-subtle rounded-2">
-          {user.user_data !== null ? user.user_data.first_name : null}{" "}
+        {user.user_data !== null ? <>Welcome {user.user_data.first_name} {user.user_data.last_name} </> : null}
+          {/* {user.user_data !== null ? user.user_data.first_name : null}{" "}
           {user.user_data !== null ? user.user_data.last_name : null}{" "}
-          {user.user_data !== null ? user.user_data.email : null}
+          {user.user_data !== null ? user.user_data.email : null} */}
         </p>
         
         {/* {searchData} */}
