@@ -17,8 +17,8 @@ export function SearchResults () {
         <div className="container">
 
             <h2>Search Page</h2>
-            { searchData.length == 0 ? <p>Empty</p> : <p>Not Empty{searchData[0]['book_name']}</p>}
-            <p>search page</p>
+            { searchData.length == 0 ? <p>No search results found</p> : <p>Results</p>}
+            
             <div className="container">
             {searchData.map((item) => (<SearchComp 
                             book_id={item.book_id}

@@ -1,10 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom"
-import { UserContext } from "../App";
+import { UserContext, BibleBookContext } from "../App";
 import { update } from "../utilites";
 
 export function Profile() {
   const { user, setUser } = useContext(UserContext);
+  const { bibleBook, setBibleBook } = useContext(BibleBookContext);
 
   const navigate = useNavigate();
 
@@ -23,15 +24,10 @@ export function Profile() {
       setFixedEmail(user["user_data"]["email"]);
     }
   }, [user]);
-  // <div className="container">
-
-  //         <h2>Home Page</h2>
-  //         <h4>
-  //             Welcome {user.user_data !== null ? user.user_data.first_name : null}
-  //             {user.user_data !== null ? user.user_data.last_name : null}
-  //         </h4>
-
-  //     </div>
+  //Below useEffect gets rid of ID to allow transition back to Journal page in save mode not update
+  useEffect(() => {
+    setBibleBook({ ...bibleBook, id: null });
+  }, []);
 
   return (
     <>
@@ -51,7 +47,9 @@ export function Profile() {
                 newPassword,
                 user["pk"],
                 oldPassword,
-                setUser
+                setUser,
+                setOldPassword,
+                setNewPassword
               ),
               
             ]}
@@ -92,6 +90,7 @@ export function Profile() {
                     id="floatingInputEmail"
                     placeholder="Email"
                     value={fixedEmail}
+                    readOnly
                   />
                   <label for="floatingInputEmai">Email</label>
                 </div>

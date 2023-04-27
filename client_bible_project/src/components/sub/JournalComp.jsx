@@ -36,7 +36,8 @@ export function JournalComp (props) {
             
             >
 
-                <p>{id}{title}</p>
+                <p className="text-primary">{title}</p>
+                <p className="text-muted"><small>{journal_entry.slice(0, 20)}</small></p>
             
             </div>
             

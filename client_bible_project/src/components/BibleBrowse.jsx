@@ -25,7 +25,7 @@ export function BibleBrowse() {
   const [audioLink, setAudioLink] = useState(
     "/audio/?book=LUK&chapter=1&start=1&end=2"
   );
-
+  //Below useEffect gets rid of ID to allow transition back to Journal page in save mode not update
   useEffect(() => {
     setBibleBook({ ...bibleBook, id: null });
   }, []);
@@ -43,9 +43,10 @@ export function BibleBrowse() {
       setAudioLink(link);
     }
   }, [bibleBook, biblePassageData]);
+  
   useEffect (() => {
     if (biblePassageData != null) { 
-    const data = { book : biblePassageData['book'], chapter : biblePassageData['chapter'], end : biblePassageData['end'], start : biblePassageData['start'], name_bible : biblePassageData['name_bible'], start : biblePassageData['start'], id : null
+    const data = { book : biblePassageData['book'], chapter : biblePassageData['chapter'], end : biblePassageData['end'], name_bible : biblePassageData['name_bible'], start : biblePassageData['start'], id : null
     }
     setBibleBook(data)
     }

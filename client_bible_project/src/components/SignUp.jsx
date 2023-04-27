@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { signUp } from "../utilites";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 export function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -7,6 +8,7 @@ export function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
   //   useEffect(() => {
   //     console.log(firstName, lastName, email, password);
   //   }, [firstName, lastName, email, password]);
@@ -23,6 +25,7 @@ export function SignUp() {
                     setLastName(""),
                     setEmail(""),
                     setPassword(""),
+                    navigate("/login")
                 ]}
                 style={{ display: "flex", flexDirection: "column" }}
                 >
